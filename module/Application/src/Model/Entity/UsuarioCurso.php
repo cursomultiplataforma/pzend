@@ -17,6 +17,7 @@ class UsuarioCurso extends MasterTable
         return $this->select()->toArray();
     }
 
+    /*
     public function getDataId($id)
     {
         $sql = "select * from " . self::TABLE_NAME . " where id = :id ";
@@ -28,6 +29,7 @@ class UsuarioCurso extends MasterTable
         $data = $this->executeQueryArray($sql, $params);
         return $data;
     }
+    */
 
     public function addData ($data) {
         return $this->insert($data);

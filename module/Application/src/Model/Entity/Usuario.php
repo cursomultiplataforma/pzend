@@ -17,12 +17,12 @@ class Usuario extends MasterTable
         return $this->select()->toArray();
     }
 
-    public function getDataId($id)
+    public function getDataId($login)
     {
-        $sql = "select * from " . self::TABLE_NAME . " where id = :id ";
+        $sql = "select * from " . self::TABLE_NAME . " where login = :login ";
 
         $params = [
-            ':id' => $id
+            ':login' => $login
         ];
 
         $data = $this->executeQueryArray($sql, $params);
