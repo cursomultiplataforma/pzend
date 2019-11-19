@@ -61,7 +61,7 @@ return [
             'usuariocurso' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/usuariocurso[/:id]',
+                    'route'    => '/usuariocurso[/:id][/:data]',
                     'defaults' => [
                         'controller' => Controller\UsuarioCursoController::class,
                     ],

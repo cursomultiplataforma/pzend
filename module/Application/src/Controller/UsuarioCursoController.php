@@ -29,11 +29,10 @@ class UsuarioCursoController extends AbstractRestfulController
 
     public function create($data)
     {
-      /*  $data["ID"] = 11;
-        $data["TEMA"] = "JQuery";
-        $data["DESCRIPCION"] = "JQuery descripción";
-        $data["ID_CURSO"] = 1;
-      */
+/*
+        $data["LOGIN_USUARIO"] = "julio.holgado";
+        $data["ID_CURSO"] = 3;
+*/
         $res = $this->usuarioCurso->addData($data);
 
         $response = $this->getResponse();
@@ -66,9 +65,13 @@ class UsuarioCursoController extends AbstractRestfulController
         return $response;
     }
 
-    public function get($id)
+    public function get($dato)
     {
-        $data = $this->usuarioCurso->getDataId($id);
+        if (is_numeric($dato)) {
+            $data = $this->usuarioCurso->getAllCurso($dato);
+        } else {
+            $data = $this->usuarioCurso->getAllUser($dato);
+        }
 
         /** @var Response $response */
         $response = $this->getResponse();
@@ -83,24 +86,24 @@ class UsuarioCursoController extends AbstractRestfulController
 
     public function options()
     {
-        die ("options");
-
         /** @var Response $response */
         $response = $this->getResponse();
         $response->getHeaders()->addHeaders([
             'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => '*'
         ]);
+        $response->setContent(json_encode(["options"]));
         return $response;
     }
 
     public function update($id, $data)
     {
+        /*$datos["login_usuario"] = $_REQUEST["usuario"];
+        $datos["id_curso"] = $id;
+        */
         /*
-        $id = 7;
-        $datos["TEMA"] = "JQuery333";
-        $datos["DESCRIPCION"] = "JQuery descripción333";
-        $datos["ID_CURSO"] = 2;
+        $datos["ID_CURSO"] = 3;
+        $datos["LOGIN_USUARIO"] = "daniel.perez";
         */
 
         $res = $this->usuarioCurso->updateData($id,$datos);
@@ -138,4 +141,6 @@ class UsuarioCursoController extends AbstractRestfulController
         }
         return $response;
     }
+
+
 }
