@@ -61,7 +61,7 @@ class UsuarioController extends AbstractRestfulController
             'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => '*'
         ]);
-        $response->setContent(json_encode([$data]));
+        $response->setContent(json_encode($data));
         $response->setStatusCode(200);
         return $response;
     }
