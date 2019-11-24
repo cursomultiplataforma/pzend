@@ -89,8 +89,10 @@ class UsuarioController extends MasterController
         /** @var Response $response */
         $response = $this->getResponse();
         $response->getHeaders()->addHeaders([
-            'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => '*'
+            'Access-Control-Allow-Origin' => "*",
+            'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers' => ' Origin, Content-Type, X-Auth-Token',
+            'Content-Type' => 'application/json'
         ]);
         return $response;
     }
