@@ -7,12 +7,11 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Db\Adapter\Adapter;
 use Zend\Http\Response;
 use Application\Model\Entity\Temario;
 
-class TemarioController extends AbstractRestfulController
+class TemarioController extends MasterController
 {
     /** @var Adapter */
     private $dbAdapter;

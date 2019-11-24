@@ -7,12 +7,12 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\Mvc\Controller\MasterController;
 use Zend\Db\Adapter\Adapter;
 use Zend\Http\Response;
 use Application\Model\Entity\UsuarioCurso;
 
-class UsuarioCursoController extends AbstractRestfulController
+class UsuarioCursoController extends MasterController
 {
     /** @var Adapter */
     private $dbAdapter;

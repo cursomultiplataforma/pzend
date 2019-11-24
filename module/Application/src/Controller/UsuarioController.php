@@ -7,12 +7,11 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Db\Adapter\Adapter;
 use Zend\Http\Response;
 use Application\Model\Entity\Usuario;
 
-class UsuarioController extends AbstractRestfulController
+class UsuarioController extends MasterController
 {
     /** @var Adapter */
     private $dbAdapter;
@@ -29,19 +28,16 @@ class UsuarioController extends AbstractRestfulController
 
     public function create($data)
     {
-      /*  $data["ID"] = 11;
-        $data["TEMA"] = "JQuery";
-        $data["DESCRIPCION"] = "JQuery descripción";
-        $data["ID_CURSO"] = 1;
-      */
+        $data =  $this->array_change_key_case_recursive($data, CASE_UPPER);
         $res = $this->usuario->addData($data);
+        $data =  $this->array_change_key_case_recursive($data, CASE_LOWER);
 
         $response = $this->getResponse();
         $response->getHeaders()->addHeaders([
             'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => '*'
         ]);
-        $response->setContent(json_encode([$data]));
+        $response->setContent(json_encode($data));
 
         if ($res == true) {
             $response->setStatusCode(200);
@@ -54,6 +50,13 @@ class UsuarioController extends AbstractRestfulController
     public function getList()
     {
         $data = $this->usuario->getAllData();
+        /*
+         * Por defecto nos devuelve las keys en mayúsuclas
+         * Dos opciones:
+         * - Convertirlo a minúsculas antes de devolverlo
+         * - En el Angular definir los campos de los objetos en mayúsculas
+         */
+        $data =  $this->array_change_key_case_recursive($data, CASE_LOWER);
 
         /** @var Response $response */
         $response = $this->getResponse();
@@ -83,8 +86,6 @@ class UsuarioController extends AbstractRestfulController
 
     public function options()
     {
-        die ("options");
-
         /** @var Response $response */
         $response = $this->getResponse();
         $response->getHeaders()->addHeaders([
@@ -96,21 +97,16 @@ class UsuarioController extends AbstractRestfulController
 
     public function update($id, $data)
     {
-        /*
-        $id = 7;
-        $datos["TEMA"] = "JQuery333";
-        $datos["DESCRIPCION"] = "JQuery descripción333";
-        $datos["ID_CURSO"] = 2;
-        */
-
-        $res = $this->usuario->updateData($id,$datos);
+        $data =  $this->array_change_key_case_recursive($data, CASE_UPPER);
+        $res = $this->usuario->updateData($id,$data);
+        $data =  $this->array_change_key_case_recursive($data, CASE_LOWER);
 
         $response = $this->getResponse();
         $response->getHeaders()->addHeaders([
             'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => '*'
         ]);
-        $response->setContent(json_encode([$res]));
+        $response->setContent(json_encode($data));
 
         if ($res == true) {
             $response->setStatusCode(200);
@@ -129,7 +125,7 @@ class UsuarioController extends AbstractRestfulController
             'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => '*'
         ]);
-        $response->setContent(json_encode([$res]));
+        $response->setContent(json_encode($id));
 
         if ($res == true) {
             $response->setStatusCode(200);

@@ -7,11 +7,11 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\Mvc\Controller\MasterController;
 use Zend\Db\Adapter\Adapter;
 use Zend\Http\Response;
 
-class IndexController extends AbstractRestfulController
+class IndexController extends MasterController
 {
     /** @var Adapter */
     private $dbAdapter;

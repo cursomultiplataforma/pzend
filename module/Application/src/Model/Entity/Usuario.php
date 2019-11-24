@@ -34,13 +34,13 @@ class Usuario extends MasterTable
     }
 
     public function updateData ($id, $data) {
-        $where = ["ID" => $id];
+        $where = ["LOGIN" => $id];
         return $this->update($data, $where);
     }
 
     public function deleteData($id)
     {
-        $where = ["ID" => $id];
+        $where = ["LOGIN" => $id];
         return parent::delete($where);
     }
 }
