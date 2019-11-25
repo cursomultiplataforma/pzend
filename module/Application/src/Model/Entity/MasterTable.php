@@ -33,9 +33,4 @@ class MasterTable extends TableGateway
         }
         return $data;
     }
-
-    public function insert($set)
-    {
-        return parent::insert($set);
-    }
 }
