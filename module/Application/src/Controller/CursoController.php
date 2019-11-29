@@ -7,7 +7,6 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\MasterController;
 use Zend\Db\Adapter\Adapter;
 use Zend\Http\Response;
 use Application\Model\Entity\Curso;
@@ -27,13 +26,25 @@ class CursoController extends MasterController
         $this->curso = new Curso($this->dbAdapter);
     }
 
+    public function getList()
+    {
+        $data = $this->curso->getAllData();
+        $data =  $this->array_change_key_case_recursive($data, CASE_LOWER);
+
+        /** @var Response $response */
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaders([
+            'Access-Control-Allow-Origin' => '*',
+            'Access-Control-Allow-Methods' => '*'
+        ]);
+        $response->setContent(json_encode($data));
+        $response->setStatusCode(200);
+        return $response;
+    }
+
     public function create($data)
     {
-      /*  $data["ID"] = 11;
-        $data["TEMA"] = "JQuery";
-        $data["DESCRIPCION"] = "JQuery descripción";
-        $data["ID_CURSO"] = 1;
-      */
+        $data =  $this->array_change_key_case_recursive($data, CASE_UPPER);
         $res = $this->curso->addData($data);
 
         $response = $this->getResponse();
@@ -41,7 +52,7 @@ class CursoController extends MasterController
             'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => '*'
         ]);
-        $response->setContent(json_encode([$data]));
+        $response->setContent(json_encode($data));
 
         if ($res == true) {
             $response->setStatusCode(200);
@@ -51,59 +62,24 @@ class CursoController extends MasterController
         return $response;
     }
 
-    public function getList()
-    {
-        $data = $this->curso->getAllData();
-
-        /** @var Response $response */
-        $response = $this->getResponse();
-        $response->getHeaders()->addHeaders([
-            'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => '*'
-        ]);
-        $response->setContent(json_encode([$data]));
-        $response->setStatusCode(200);
-        return $response;
-    }
-
-    public function get($id)
-    {
-        $data = $this->curso->getDataId($id);
-
-        /** @var Response $response */
-        $response = $this->getResponse();
-        $response->getHeaders()->addHeaders([
-            'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => '*'
-        ]);
-        $response->setContent(json_encode([$data]));
-        $response->setStatusCode(200);
-        return $response;
-    }
-
     public function options()
     {
-        die ("options");
-
         /** @var Response $response */
         $response = $this->getResponse();
         $response->getHeaders()->addHeaders([
-            'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => '*'
+            'Access-Control-Allow-Origin' => "*",
+            'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers' => 'Origin, Content-Type, X-Auth-Token',
+            'Content-Type' => 'application/json'
         ]);
         return $response;
     }
+
+    /* hasta aquí */
 
     public function update($id, $data)
     {
-        /*
-        $id = 7;
-        $datos["TEMA"] = "JQuery333";
-        $datos["DESCRIPCION"] = "JQuery descripción333";
-        $datos["ID_CURSO"] = 2;
-        */
-
-        $res = $this->curso->updateData($id,$datos);
+        $res = $this->curso->updateData($id,$data);
 
         $response = $this->getResponse();
         $response->getHeaders()->addHeaders([

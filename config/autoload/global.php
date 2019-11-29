@@ -14,8 +14,13 @@
 return [
     'db' => [
         'driver' => 'OCI8',
-        //'connection_string' => 'apis.urjc.es:2490/dbcurso',
-        'connection_string' => '(description=(address=(host=apis.urjc.es)(protocol=tcp)(port=2490))(connect_data=(SERVICE_NAME=dbcurso)(SERVER = DEDICATED)))',
+       'connection_string' =>
+           '(description=(address=
+           (host=apis.urjc.es)
+           (protocol=tcp)
+           (port=2490))
+           (connect_data=(SERVICE_NAME=dbcurso)
+           (SERVER = DEDICATED)))',
         'character_set' => 'AL32UTF8',
         'username' => 'curso',
         'password' => 'urjc2019'

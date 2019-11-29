@@ -22,24 +22,16 @@ class TemarioController extends MasterController
     public function __construct($dbAdapter)
     {
         $this->dbAdapter = $dbAdapter;
+        $this->temario = new Temario($this->dbAdapter);
     }
 
     public function create($data)
     {
-      /*  $data["ID"] = 11;
-        $data["TEMA"] = "JQuery";
-        $data["DESCRIPCION"] = "JQuery descripción";
-        $data["ID_CURSO"] = 1;
-      */
-
-        $temario = new Temario($this->dbAdapter);
-        $res = $temario->addData($data);
+        $data =  $this->array_change_key_case_recursive($data, CASE_UPPER);
+        $res = $this->temario->addData($data);
+        $data =  $this->array_change_key_case_recursive($data, CASE_UPPER);
 
         $response = $this->getResponse();
-        $response->getHeaders()->addHeaders([
-            'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => '*'
-        ]);
         $response->setContent(json_encode([$data]));
 
         if ($res == true) {
@@ -52,15 +44,11 @@ class TemarioController extends MasterController
 
     public function getList()
     {
-        $temario = new Temario($this->dbAdapter);
-        $data = $temario->getAllData();
+        $data = $this->temario->getAllData();
+        $data =  $this->array_change_key_case_recursive($data, CASE_UPPER);
 
         /** @var Response $response */
         $response = $this->getResponse();
-        $response->getHeaders()->addHeaders([
-            'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => '*'
-        ]);
         $response->setContent(json_encode([$data]));
         $response->setStatusCode(200);
         return $response;
